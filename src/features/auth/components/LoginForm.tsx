@@ -1,24 +1,23 @@
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../../../hooks/useLogin';
 
 const LoginForm = () => {
-    const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login, loading, error } = useLogin();
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const success = await login(email, password);
     if (success) {
-        console.log('success')
-    //   navigate('/dashboard'); // или друга защитена страница
+      console.log('success');
+      navigate('/dashboard');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto mt-20 p-6 bg-white shadow-md rounded">
+    <form className="space-y-4 max-w-md mx-auto mt-20 p-6 bg-white shadow-md rounded">
       <h2 className="text-2xl font-bold text-center">Login</h2>
 
       {error && <p className="text-red-600 text-sm">{error}</p>}
@@ -41,6 +40,7 @@ const LoginForm = () => {
 
       <button
         type="submit"
+        onClick={handleSubmit}
         className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
         disabled={loading}
       >
